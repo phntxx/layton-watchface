@@ -332,7 +332,7 @@ static void prv_default_settings() {
   settings.VibrateOnDisconnect = true;
   settings.HourMode = 0;
   settings.DateFormat = 0;
-  settings.Background = 0; //City 1
+  settings.Background = 0; //City 1 (0)
   settings.Character1 = 0; //0
   settings.Character2 = 1; //1
   settings.Character3 = 100; //100
@@ -551,6 +551,8 @@ static void main_window_load(Window *window)
   // Create GBitmap
   #if PBL_DISPLAY_HEIGHT == 228 
     s_bluetooth_layer = bitmap_layer_create(GRect(80, 25, bounds.size.w, 30));
+  #elif PBL_DISPLAY_HEIGHT == 260 
+    s_bluetooth_layer = bitmap_layer_create(GRect(80, 41, bounds.size.w, 30));
   #elif PBL_DISPLAY_HEIGHT == 180 
     s_bluetooth_layer = bitmap_layer_create(GRect(46, 20, bounds.size.w, 30));
   #else
@@ -583,6 +585,9 @@ static void main_window_load(Window *window)
   #if PBL_DISPLAY_HEIGHT == 228 
     s_time_layer = text_layer_create(GRect(2, 11, bounds.size.w, 100));
     s_date_layer = text_layer_create(GRect(2, 15, bounds.size.w, 50));
+  #elif PBL_DISPLAY_HEIGHT == 260
+    s_time_layer = text_layer_create(GRect(2, 27, bounds.size.w, 100));
+    s_date_layer = text_layer_create(GRect(2, 31, bounds.size.w, 50));
   #elif PBL_DISPLAY_HEIGHT == 180 
     s_time_layer = text_layer_create(GRect(2, 20, bounds.size.w, 100));
     s_date_layer = text_layer_create(GRect(1, 23, bounds.size.w, 50));
@@ -592,7 +597,7 @@ static void main_window_load(Window *window)
   #endif
 
   // Create GFont
-  #if PBL_DISPLAY_HEIGHT == 228 
+  #if PBL_DISPLAY_HEIGHT == 228 || PBL_DISPLAY_HEIGHT == 260
     s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LAYTON_80));
     s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LAYTON_32));
   #else
