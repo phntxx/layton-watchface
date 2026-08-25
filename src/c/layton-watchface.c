@@ -330,6 +330,7 @@ static void canvas_update_proc(Layer *layer, GContext *ctx)
 // Initialize the default settings
 static void prv_default_settings() {
   settings.VibrateOnDisconnect = true;
+  settings.ShowBluetooth = true;
   settings.HourMode = 0;
   settings.DateFormat = 0;
   settings.Background = 0; //City 1 (0)
@@ -499,13 +500,17 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 static void bluetooth_callback(bool connected)
 {
   //Set depending on status of bluetooth
-  if (connected)
+  if (connected && settings.ShowBluetooth)
   {
     bitmap_layer_set_bitmap(s_bluetooth_layer, s_bluetooth_on_bitmap);
   }
   else
   {
-    bitmap_layer_set_bitmap(s_bluetooth_layer, s_bluetooth_off_bitmap);
+    if (settings.ShowBluetooth)
+    {
+      bitmap_layer_set_bitmap(s_bluetooth_layer, s_bluetooth_off_bitmap);
+    }
+
     //Vibrate on disconnected
     if (settings.VibrateOnDisconnect)
     {
@@ -561,7 +566,11 @@ static void main_window_load(Window *window)
   
   bitmap_layer_set_bitmap(s_bluetooth_layer, s_bluetooth_on_bitmap);
   bitmap_layer_set_compositing_mode(s_bluetooth_layer, GCompOpSet);
-  layer_add_child(window_layer, bitmap_layer_get_layer(s_bluetooth_layer));
+  
+  if (Settings.ShowBluetooth)
+  {
+    layer_add_child(window_layer, bitmap_layer_get_layer(s_bluetooth_layer));
+  }
 
   // Register for Bluetooth connection updates
   connection_service_subscribe((ConnectionHandlers) {
@@ -642,7 +651,6 @@ static void main_window_unload(Window *window)
   bitmap_layer_destroy(s_background_layer);
   bitmap_layer_destroy(s_bluetooth_layer);
   layer_destroy(s_character_layer);
-  
 }
 
 static void init() {

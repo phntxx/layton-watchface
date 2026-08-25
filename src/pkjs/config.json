@@ -21,6 +21,12 @@
         "defaultValue": true
       },
       {
+        "type": "toggle",
+        "messageKey": "ShowBluetooth",
+        "label": "Show Bluetooth Status",
+        "defaultValue": true
+      },
+      {
         "type": "select",
         "messageKey": "HourMode",
         "defaultValue": 0,
